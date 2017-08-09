@@ -1,4 +1,6 @@
 services:
-#    wearejust_form.example:
-#        class: Wearejust\FormBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    wearejust_form.form_type.readonly_type:
+        class: Wearejust\FormBundle\Form\Type\ReadonlyType
+        tags:
+            - { name: form.type }

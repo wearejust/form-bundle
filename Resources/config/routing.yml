@@ -1,3 +1,0 @@
-wearejust_form_homepage:
-    path:     /
-    defaults: { _controller: WearejustFormBundle:Default:index }

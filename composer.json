@@ -1,0 +1,29 @@
+{
+    "name": "wearejust/form-bundle",
+    "description": "Add extra functionality to Symfony Form",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cees van Egmond",
+            "email": "cees.vanegmond@wearejust.com"
+        },
+        {
+            "name": "John in 't Hout",
+            "email": "john.inthout@wearejust.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Wearejust\\FormBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "symfony/framework-bundle": "~2.7|~3.0"
+    },
+    "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -24,5 +24,12 @@ class WearejustFormExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $formThemes = [];
+        if ($config['form']['theme']) {
+            $formThemes[] = $config['form']['theme'];
+        }
+
+        $container->setParameter('wearejust_form.form.resources', $formThemes);
     }
 }

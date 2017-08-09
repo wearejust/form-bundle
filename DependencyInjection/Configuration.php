@@ -2,6 +2,7 @@
 
 namespace Wearejust\FormBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -20,10 +21,28 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('wearejust_form');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $this->addFormConfig($rootNode);
 
         return $treeBuilder;
+    }
+
+    /**
+     * Adds form configuration.
+     *
+     * @param ArrayNodeDefinition $rootNode
+     */
+    private function addFormConfig(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('form')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('theme')
+                            ->defaultValue('WearejustFormBundle:Form:fields.html.twig')
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
     }
 }
