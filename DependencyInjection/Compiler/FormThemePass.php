@@ -8,8 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class FormThemePass implements CompilerPassInterface
 {
     /**
-     * Adds the Twig form theme directly after the core form theme.
-     *
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
