@@ -4,3 +4,8 @@ services:
         class: Wearejust\FormBundle\Form\Type\ReadonlyType
         tags:
             - { name: form.type }
+
+    wearejust_form.form_type.limited_textarea:
+        class: Wearejust\FormBundle\Form\Type\LimitedTextarea
+        tags:
+            - { name: form.type, alias: Wearejust\FormBundle\Form\Type\LimitedTextarea }

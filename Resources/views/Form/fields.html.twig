@@ -1,5 +1,18 @@
+{% use 'form_div_layout.html.twig' %}
+
 {% block wearejust_readonly_widget %}
     <span style="padding: 0.75em 1em; display:block;">
         {{ field | render_view_element(object) }}
     </span>
 {% endblock wearejust_readonly_widget %}
+
+{% block wearejust_limitedtextarea_widget %}
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' js-countable')|trim}) %}
+    {% set attr = attr|merge({'data-length': length|trim}) %}
+    {{- block('textarea_widget') -}}
+{% endblock wearejust_limitedtextarea_widget %}
+
+{% block wearejust_limitedtextarea_label %}
+    {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' js-countable-label')|trim}) %}
+    {{- block('form_label') -}}
+{% endblock wearejust_limitedtextarea_label %}
