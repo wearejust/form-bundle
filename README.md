@@ -87,3 +87,31 @@ class DataAmin extends AbstractAdmin
   }
 }
 ```
+
+### LimitedTextarea Form Type
+
+```php
+// SonataAdminBundle
+
+<?php
+
+use Wearejust\FormBundle\Form\Type\LimitedTextarea;
+
+class DataAmin extends AbstractAdmin
+{
+
+  ...
+
+  /**
+  * @param FormMapper $formMapper
+  */
+  protected function configureFormFields(FormMapper $formMapper)
+  {
+    $formMapper
+        ->add('name_of_texterea', LimitedTextarea::class, [
+            'length' => 200    
+        ]) 
+    ;
+  }
+}
+```
