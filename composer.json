@@ -20,7 +20,8 @@
     },
     "require": {
         "php": ">=7.0",
-        "symfony/framework-bundle": "~2.7|~3.0"
+        "symfony/framework-bundle": "~2.7|~3.0",
+        "presta/image-bundle": "^1.7"
     },
     "minimum-stability": "stable",
     "config": {
