@@ -1,0 +1,10 @@
+.error { color: #900;}
+.counter-text {
+	float: right;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.counter-text {
+	color: rgba(34,34,34,.8);
+}
