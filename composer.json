@@ -24,7 +24,7 @@
         "presta/image-bundle": "^1.7"
     },
     "minimum-stability": "stable",
-     "extra": {
+    "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"
         }
