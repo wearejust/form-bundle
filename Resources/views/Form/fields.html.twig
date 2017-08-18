@@ -3,15 +3,3 @@
         {{ field | render_view_element(object) }}
     </span>
 {% endblock wearejust_readonly_widget %}
-
-{% block wearejust_limitedtextarea_row %}
-    <div class="js-countable">
-        {{ block('form_row') }}
-    </div>
-{% endblock wearejust_limitedtextarea_row %}
-
-{% block wearejust_limitedtextarea_widget %}
-    {% set attr = attr|merge({'data-length': length|trim}) %}
-      {{- block('textarea_widget') -}}
-      <small class="counter-text">Aantal karakters <span class="total_text"></span></small>
-{% endblock wearejust_limitedtextarea_widget %}
