@@ -12,5 +12,6 @@
 
 {% block wearejust_limitedtextarea_widget %}
     {% set attr = attr|merge({'data-length': length|trim}) %}
-    {{- block('textarea_widget') -}}
+      {{- block('textarea_widget') -}}
+      <small class="counter-text">Aantal karakters <span class="total_text"></span></small>
 {% endblock wearejust_limitedtextarea_widget %}

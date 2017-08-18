@@ -5,7 +5,6 @@ $(function(){
       let counter_attr = count_area.attr('data-length');
       let total = counter_attr - count_area.val().length;
 
-      $('<small class="counter-text">Aantal aanbevolen karakters <span class="total_text">' + total + '</span></small>').insertAfter(count_area);
       let count_text =  item.find('.total_text');
       count_text.text(total);
       if(isNaN(total) || total <= 0) {
