@@ -43,6 +43,13 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('bundles')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                            ->booleanNode('prestaimage')->defaultTrue()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
     }
 }
