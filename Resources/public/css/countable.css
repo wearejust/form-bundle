@@ -1,10 +1,10 @@
-.error { color: #900;}
-.counter-text {
+.c-counter-error { color: #900;}
+.c-counter-text {
 	float: right;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
 
-.counter-text {
+.c-counter-text {
 	color: #737373;
 }

@@ -13,5 +13,5 @@
 {% block wearejust_limitedtextarea_widget %}
     {% set attr = attr|merge({'data-length': length|trim}) %}
       {{- block('textarea_widget') -}}
-      <small class="counter-text">{{ 'Character Count' | trans({}, 'WearejustFormBundle') }} <span class="total_text"></span></small>
+      <small class="counter-text">{{ 'Character Count' | trans({}, 'WearejustFormBundle') }} <span class="js-countable-total"></span></small>
 {% endblock wearejust_limitedtextarea_widget %}
