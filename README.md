@@ -125,6 +125,7 @@ class DataAmin extends AbstractAdmin
         ]);
   }
 }
+```
 
 ### LimitedTextarea Form Type
 
