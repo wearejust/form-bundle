@@ -4,3 +4,9 @@ services:
         class: Wearejust\FormBundle\Form\Type\ReadonlyType
         tags:
             - { name: form.type }
+
+    wearejust_form.routing.presta_image_routing_loader:
+        class: Wearejust\FormBundle\Routing\PrestaImageRoutingLoader
+        arguments: ['%kernel.bundles%']
+        tags:
+            - { name: routing.loader }
