@@ -47,7 +47,7 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Configure (reference)
+Step 3: Configure (optional/reference)
 -------------------------
 
 ```yml
@@ -71,58 +71,5 @@ wearejust_form:
 Step 3: Usage
 -------------------------
 
-### Readonly Form Type
-
-```php
-// SonataAdminBundle
-
-<?php
-
-use Wearejust\FormBundle\Form\Type\ReadonlyType;
-
-class DataAmin extends AbstractAdmin
-{
-
-  ...
-
-  /**
-  * @param FormMapper $formMapper
-  */
-  protected function configureFormFields(FormMapper $formMapper)
-  {
-    $formMapper
-      ->add('readonlyfield', ReadonlyType::class) // of course, this form type could also be used in Symfony FormBuilder
-    ;
-  }
-}
-```
-
-### ImageType
-
-```php
-// SonataAdminBundle
-
-<?php
-
-use Presta\ImageBundle\Form\Type\ImageType;
-use Presta\ImageBundle\Model\AspectRatio;
-
-class DataAmin extends AbstractAdmin
-{
-
-  ...
-
-  /**
-  * @param FormMapper $formMapper
-  */
-  protected function configureFormFields(FormMapper $formMapper)
-  {
-    // This is an extension of the original ImageType
-    // For full config, please checkout https://github.com/prestaconcept/PrestaImageBundle
-    $formMapper
-        ->add('imageFile', ImageType::class, [
-            'aspect_ratios' => [new AspectRatio(16/9, '')],
-        ]);
-  }
-}
-```
+* [Readonly](Resources/doc/formtypes/readonly.md)
+* [Image/Crop](Resources/doc/formtypes/image.md)
