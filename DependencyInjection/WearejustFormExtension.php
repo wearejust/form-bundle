@@ -53,25 +53,13 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $jsAssets = [];
-        $cssAssets = [];
-
-        if ($this->checkPrestataImageConfig($loadedBundles, $config)) {
-            $jsAssets = array_merge($jsAssets, [
-                'bundles/wearejustform/cropper/cropper.min.js',
-                'bundles/prestaimage/js/cropper.js',
-                'bundles/wearejustform/cropper/init.js',
-            ]);
-
-            $cssAssets = array_merge($cssAssets, [
-                'bundles/wearejustform/cropper/cropper.min.css',
-                'bundles/prestaimage/css/cropper.css'
-            ]);
-        }
+        $assets = ['js' => [], 'css' => []];
+        $assets = $this->addSwitcheryConfig($assets, $config);
+        $assets = $this->addPrestataImageConfig($assets, $loadedBundles, $config);
 
         $container->prependExtensionConfig('just_sonata_theme', [
-            'extra_css_assets' => $cssAssets,
-            'extra_js_assets' => $jsAssets
+            'extra_css_assets' => $assets['css'],
+            'extra_js_assets' => $assets['js']
         ]);
     }
 
@@ -79,7 +67,7 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
      * @param array $loadedBundles
      * @param array $config
      *
-     * @return bool
+     * @return array
      */
     private function checkPrestataImageConfig(array $loadedBundles, array $config)
     {
@@ -92,5 +80,51 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
         }
 
         return true;
+    }
+
+    /**
+     * @param array $assets
+     * @param array $loadedBundles
+     * @param array $config
+     *
+     * @return array
+     */
+    private function addPrestataImageConfig(array $assets, array $loadedBundles, array $config)
+    {
+        if ($this->checkPrestataImageConfig($loadedBundles, $config)) {
+            $assets['js'] = array_merge($assets['js'], [
+                'bundles/wearejustform/cropper/cropper.min.js',
+                'bundles/prestaimage/js/cropper.js',
+                'bundles/wearejustform/cropper/init.js',
+            ]);
+
+            $assets['css'] = array_merge($assets['css'], [
+                'bundles/wearejustform/cropper/cropper.min.css',
+                'bundles/prestaimage/css/cropper.css'
+            ]);
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @param array $assets
+     * @param array $config
+     *
+     * @return array
+     */
+    private function addSwitcheryConfig(array $assets, array $config)
+    {
+        if ($config['libraries']['switchery']) {
+            $assets['js'] = array_merge($assets['js'], [
+                'bundles/wearejustform/switchery/switchery.min.js',
+                'bundles/wearejustform/switchery/init.js',
+            ]);
+            $assets['css'] = array_merge($assets['css'], [
+                'bundles/wearejustform/switchery/switchery.min.css',
+            ]);
+        }
+
+        return $assets;
     }
 }

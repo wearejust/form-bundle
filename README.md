@@ -58,6 +58,8 @@ wearejust_form:
         theme: WearejustFormBundle:Form:fields.html.twig
     bundles:
         prestaimage: true // Defaults to true use PrestaImageBundle (see suggests in composer.json)
+    libraries:
+        switchery: true
 ```
 
 ```yml
@@ -73,3 +75,4 @@ Step 3: Usage
 
 * [Readonly](Resources/doc/formtypes/readonly.md)
 * [Image/Crop](Resources/doc/formtypes/image.md)
+* [Switchery](Resources/doc/formtypes/switchery.md)

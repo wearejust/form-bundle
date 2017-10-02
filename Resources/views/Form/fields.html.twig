@@ -3,3 +3,11 @@
         {{ field | render_view_element(object) }}
     </span>
 {% endblock wearejust_readonly_widget %}
+
+{% block wearejust_switcher_label %}
+    {{- block('form_label') -}}
+{% endblock wearejust_switcher_label %}
+
+{% block wearejust_switcher_widget %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{% endblock wearejust_switcher_widget %}
