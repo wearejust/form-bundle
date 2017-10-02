@@ -60,7 +60,7 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
             $jsAssets = array_merge($jsAssets, [
                 'bundles/wearejustform/cropper/cropper.min.js',
                 'bundles/prestaimage/js/cropper.js',
-                'bundles/wearejustform/app.js',
+                'bundles/wearejustform/cropper/init.js',
             ]);
 
             $cssAssets = array_merge($cssAssets, [
