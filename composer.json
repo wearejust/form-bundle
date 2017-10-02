@@ -18,17 +18,20 @@
             "Wearejust\\FormBundle\\": ""
         }
     },
-    "require": {
-        "php": ">=7.0",
-        "symfony/framework-bundle": "~2.7|~3.0",
-        "presta/image-bundle": "^1.7"
-    },
-    "minimum-stability": "stable",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.x-dev"
+    "extra": { 
+        "branch-alias": { 
+            "dev-master": "1.x-dev" 
         }
     },
+    "require": {
+        "php": ">=7.0",
+        "symfony/framework-bundle": "~2.7|~3.0"
+    },
+    "suggest": {
+        "presta/image-bundle": "Allows for cropping images, use version ^1.7",
+        "vich/uploader-bundle": "Allows for saving files to entities, use version ^1.6"
+    },
+    "minimum-stability": "stable",
     "config": {
         "sort-packages": true
     }

@@ -47,7 +47,7 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Configure (reference)
+Step 3: Configure (optional/reference)
 -------------------------
 
 ```yml
@@ -56,34 +56,20 @@ Step 3: Configure (reference)
 wearejust_form:
     form:
         theme: WearejustFormBundle:Form:fields.html.twig
+    bundles:
+        prestaimage: true // Defaults to true use PrestaImageBundle (see suggests in composer.json)
+```
+
+```yml
+// routing.yml
+wearejust_form:
+    resource: .
+    type: wearejust_form
 ```
 
 
 Step 3: Usage
 -------------------------
 
-### Readonly Form Type
-
-```php
-// SonataAdminBundle
-
-<?php
-
-use Wearejust\FormBundle\Form\Type\ReadonlyType;
-
-class DataAmin extends AbstractAdmin
-{
-
-  ...
-
-  /**
-  * @param FormMapper $formMapper
-  */
-  protected function configureFormFields(FormMapper $formMapper)
-  {
-    $formMapper
-      ->add('readonlyfield', ReadonlyType::class) // of course, this form type could also be used in Symfony FormBuilder
-    ;
-  }
-}
-```
+* [Readonly](Resources/doc/formtypes/readonly.md)
+* [Image/Crop](Resources/doc/formtypes/image.md)
