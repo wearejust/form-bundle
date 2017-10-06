@@ -5,6 +5,11 @@ services:
         tags:
             - { name: form.type }
 
+    wearejust_form.form_extension.image_type_extension:
+        class: Wearejust\FormBundle\Form\Extension\ImageTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Presta\ImageBundle\Form\Type\ImageType }
+            
     wearejust_form.routing.presta_image_routing_loader:
         class: Wearejust\FormBundle\Routing\PrestaImageRoutingLoader
         arguments: ['%kernel.bundles%']
