@@ -5,6 +5,7 @@ namespace Wearejust\FormBundle\DependencyInjection;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
@@ -18,10 +19,15 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
 {
     /**
      * {@inheritdoc}
+     * @throws \RuntimeException
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loadedBundles = $container->getParameter('kernel.bundles');
+
+        if ($this->isWearejustSonataThemeLoaded($loadedBundles)) {
+            $this->guardAgainstInvalidOrderIfWearejustSonataTheme($loadedBundles);
+        }
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -50,6 +56,10 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     {
         $loadedBundles = $container->getParameter('kernel.bundles');
 
+        if (! $this->isWearejustSonataThemeLoaded($loadedBundles)) {
+            return;
+        }
+
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
@@ -57,10 +67,18 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
         $assets = $this->addSwitcheryConfig($assets, $config);
         $assets = $this->addPrestataImageConfig($assets, $loadedBundles, $config);
 
-        $container->prependExtensionConfig('just_sonata_theme', [
+        $assetConfig = [
             'extra_css_assets' => $assets['css'],
             'extra_js_assets' => $assets['js']
-        ]);
+        ];
+
+        try {
+            $container->getExtension('wearejust_sonata_theme');
+
+            $container->prependExtensionConfig('wearejust_sonata_theme', $assetConfig);
+        } catch (LogicException $e) {
+            $container->prependExtensionConfig('just_sonata_theme', $assetConfig);
+        }
     }
 
     /**
@@ -126,5 +144,32 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
         }
 
         return $assets;
+    }
+
+    /**
+     * @param $loadedBundles
+     *
+     * @throws \RuntimeException
+     */
+    private function guardAgainstInvalidOrderIfWearejustSonataTheme($loadedBundles)
+    {
+        $bundles = array_keys($loadedBundles);
+
+        $parentThemePosition = array_search('WearejustSonataThemeBundle', $bundles, true) ?: array_search('JustSonataThemeBundle', $bundles, true);
+        $currentBundlePosition = array_search('WearejustFormBundle', $bundles, true);
+
+        if ($parentThemePosition && $currentBundlePosition > $parentThemePosition) {
+            throw new RuntimeException('Package [WearejustFormBundle] loaded before [WearejustSonataThemeBundle/JustSonataThemeBundle], please change order in AppKernel.php');
+        }
+    }
+
+    /**
+     * @param array $bundles
+     *
+     * @return mixed
+     */
+    private function isWearejustSonataThemeLoaded(array $bundles)
+    {
+        return array_key_exists('WearejustSonataThemeBundle', $bundles) || array_key_exists('JustSonataThemeBundle', $bundles);
     }
 }
