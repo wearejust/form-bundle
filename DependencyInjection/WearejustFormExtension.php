@@ -5,7 +5,6 @@ namespace Wearejust\FormBundle\DependencyInjection;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
@@ -25,7 +24,7 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     {
         $loadedBundles = $container->getParameter('kernel.bundles');
 
-        if ($this->isWearejustSonataThemeLoaded($loadedBundles)) {
+        if ($this->isWearejustSonataThemeLoaded($container)) {
             $this->guardAgainstInvalidOrderIfWearejustSonataTheme($loadedBundles);
         }
 
@@ -54,11 +53,11 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
      */
     public function prepend(ContainerBuilder $container)
     {
-        $loadedBundles = $container->getParameter('kernel.bundles');
-
-        if (! $this->isWearejustSonataThemeLoaded($loadedBundles)) {
+        if (! $this->isWearejustSonataThemeLoaded($container)) {
             return;
         }
+
+        $loadedBundles = $container->getParameter('kernel.bundles');
 
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
@@ -72,11 +71,9 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
             'extra_js_assets' => $assets['js']
         ];
 
-        try {
-            $container->getExtension('wearejust_sonata_theme');
-
+        if ($container->hasExtension('wearejust_sonata_theme')) {
             $container->prependExtensionConfig('wearejust_sonata_theme', $assetConfig);
-        } catch (LogicException $e) {
+        }elseif ($container->hasExtension('just_sonata_theme')) {
             $container->prependExtensionConfig('just_sonata_theme', $assetConfig);
         }
     }
@@ -164,12 +161,12 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     }
 
     /**
-     * @param array $bundles
+     * @param ContainerBuilder $container
      *
      * @return mixed
      */
-    private function isWearejustSonataThemeLoaded(array $bundles)
+    private function isWearejustSonataThemeLoaded(ContainerBuilder $container)
     {
-        return array_key_exists('WearejustSonataThemeBundle', $bundles) || array_key_exists('JustSonataThemeBundle', $bundles);
+        return $container->hasExtension('wearejust_sonata_theme') || $container->hasExtension('just_sonata_theme');
     }
 }
