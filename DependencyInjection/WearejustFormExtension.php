@@ -24,7 +24,7 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     {
         $loadedBundles = $container->getParameter('kernel.bundles');
 
-        if ($this->isWearejustSonataThemeLoaded($container)) {
+        if ($this->isWearejustSonataThemeLoaded($loadedBundles)) {
             $this->guardAgainstInvalidOrderIfWearejustSonataTheme($loadedBundles);
         }
 
@@ -53,11 +53,11 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
      */
     public function prepend(ContainerBuilder $container)
     {
-        if (! $this->isWearejustSonataThemeLoaded($container)) {
+        $loadedBundles = $container->getParameter('kernel.bundles');
+
+        if (! $this->isWearejustSonataThemeLoaded($loadedBundles)) {
             return;
         }
-
-        $loadedBundles = $container->getParameter('kernel.bundles');
 
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
@@ -144,11 +144,11 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     }
 
     /**
-     * @param $loadedBundles
+     * @param array $loadedBundles
      *
      * @throws \RuntimeException
      */
-    private function guardAgainstInvalidOrderIfWearejustSonataTheme($loadedBundles)
+    private function guardAgainstInvalidOrderIfWearejustSonataTheme(array $loadedBundles)
     {
         $bundles = array_keys($loadedBundles);
 
@@ -161,12 +161,12 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     }
 
     /**
-     * @param ContainerBuilder $container
+     * @param array $loadedBundles
      *
-     * @return mixed
+     * @return bool
      */
-    private function isWearejustSonataThemeLoaded(ContainerBuilder $container)
+    private function isWearejustSonataThemeLoaded(array $loadedBundles)
     {
-        return $container->hasExtension('wearejust_sonata_theme') || $container->hasExtension('just_sonata_theme');
+        return array_key_exists('WearejustSonataThemeBundle', $loadedBundles) || array_key_exists('JustSonataThemeBundle', $loadedBundles);
     }
 }
