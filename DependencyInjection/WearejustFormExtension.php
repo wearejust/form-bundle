@@ -18,10 +18,15 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
 {
     /**
      * {@inheritdoc}
+     * @throws \RuntimeException
      */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loadedBundles = $container->getParameter('kernel.bundles');
+
+        if ($this->isWearejustSonataThemeLoaded($loadedBundles)) {
+            $this->guardAgainstInvalidOrderIfWearejustSonataTheme($loadedBundles);
+        }
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -50,36 +55,34 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
     {
         $loadedBundles = $container->getParameter('kernel.bundles');
 
+        if (! $this->isWearejustSonataThemeLoaded($loadedBundles)) {
+            return;
+        }
+
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration(new Configuration(), $configs);
 
-        $jsAssets = [];
-        $cssAssets = [];
+        $assets = ['js' => [], 'css' => []];
+        $assets = $this->addSwitcheryConfig($assets, $config);
+        $assets = $this->addPrestataImageConfig($assets, $loadedBundles, $config);
 
-        if ($this->checkPrestataImageConfig($loadedBundles, $config)) {
-            $jsAssets = array_merge($jsAssets, [
-                'bundles/wearejustform/cropper/cropper.min.js',
-                'bundles/prestaimage/js/cropper.js',
-                'bundles/wearejustform/app.js',
-            ]);
+        $assetConfig = [
+            'extra_css_assets' => $assets['css'],
+            'extra_js_assets' => $assets['js']
+        ];
 
-            $cssAssets = array_merge($cssAssets, [
-                'bundles/wearejustform/cropper/cropper.min.css',
-                'bundles/prestaimage/css/cropper.css'
-            ]);
+        if ($container->hasExtension('wearejust_sonata_theme')) {
+            $container->prependExtensionConfig('wearejust_sonata_theme', $assetConfig);
+        }elseif ($container->hasExtension('just_sonata_theme')) {
+            $container->prependExtensionConfig('just_sonata_theme', $assetConfig);
         }
-
-        $container->prependExtensionConfig('just_sonata_theme', [
-            'extra_css_assets' => $cssAssets,
-            'extra_js_assets' => $jsAssets
-        ]);
     }
 
     /**
      * @param array $loadedBundles
      * @param array $config
      *
-     * @return bool
+     * @return array
      */
     private function checkPrestataImageConfig(array $loadedBundles, array $config)
     {
@@ -92,5 +95,78 @@ class WearejustFormExtension extends Extension implements PrependExtensionInterf
         }
 
         return true;
+    }
+
+    /**
+     * @param array $assets
+     * @param array $loadedBundles
+     * @param array $config
+     *
+     * @return array
+     */
+    private function addPrestataImageConfig(array $assets, array $loadedBundles, array $config)
+    {
+        if ($this->checkPrestataImageConfig($loadedBundles, $config)) {
+            $assets['js'] = array_merge($assets['js'], [
+                'bundles/wearejustform/cropper/cropper.min.js',
+                'bundles/prestaimage/js/cropper.js',
+                'bundles/wearejustform/cropper/init.js',
+            ]);
+
+            $assets['css'] = array_merge($assets['css'], [
+                'bundles/wearejustform/cropper/cropper.min.css',
+                'bundles/prestaimage/css/cropper.css'
+            ]);
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @param array $assets
+     * @param array $config
+     *
+     * @return array
+     */
+    private function addSwitcheryConfig(array $assets, array $config)
+    {
+        if ($config['libraries']['switchery']) {
+            $assets['js'] = array_merge($assets['js'], [
+                'bundles/wearejustform/switchery/switchery.min.js',
+                'bundles/wearejustform/switchery/init.js',
+            ]);
+            $assets['css'] = array_merge($assets['css'], [
+                'bundles/wearejustform/switchery/switchery.min.css',
+            ]);
+        }
+
+        return $assets;
+    }
+
+    /**
+     * @param array $loadedBundles
+     *
+     * @throws \RuntimeException
+     */
+    private function guardAgainstInvalidOrderIfWearejustSonataTheme(array $loadedBundles)
+    {
+        $bundles = array_keys($loadedBundles);
+
+        $parentThemePosition = array_search('WearejustSonataThemeBundle', $bundles, true) ?: array_search('JustSonataThemeBundle', $bundles, true);
+        $currentBundlePosition = array_search('WearejustFormBundle', $bundles, true);
+
+        if ($parentThemePosition && $currentBundlePosition > $parentThemePosition) {
+            throw new RuntimeException('Package [WearejustFormBundle] loaded before [WearejustSonataThemeBundle/JustSonataThemeBundle], please change order in AppKernel.php');
+        }
+    }
+
+    /**
+     * @param array $loadedBundles
+     *
+     * @return bool
+     */
+    private function isWearejustSonataThemeLoaded(array $loadedBundles)
+    {
+        return array_key_exists('WearejustSonataThemeBundle', $loadedBundles) || array_key_exists('JustSonataThemeBundle', $loadedBundles);
     }
 }

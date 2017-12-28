@@ -47,7 +47,7 @@ class AppKernel extends Kernel
 }
 ```
 
-Step 3: Configure (reference)
+Step 3: Configure (optional/reference)
 -------------------------
 
 ```yml
@@ -58,6 +58,8 @@ wearejust_form:
         theme: WearejustFormBundle:Form:fields.html.twig
     bundles:
         prestaimage: true // Defaults to true use PrestaImageBundle (see suggests in composer.json)
+    libraries:
+        switchery: true
 ```
 
 ```yml
@@ -155,3 +157,7 @@ class DataAmin extends AbstractAdmin
 }
 }
 ```
+
+* [Readonly](Resources/doc/formtypes/readonly.md)
+* [Image/Crop](Resources/doc/formtypes/image.md)
+* [Switchery](Resources/doc/formtypes/switchery.md)

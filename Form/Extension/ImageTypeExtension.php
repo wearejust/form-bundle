@@ -16,6 +16,8 @@ class ImageTypeExtension extends AbstractTypeExtension
             ->setDefault('preview_width', 558)
             ->setDefault('preview_height', 4096)
             ->setDefault('enable_remote', false)
+            ->setDefault('upload_mimetype', 'image/jpeg')
+            ->setDefault('cropper_options', ['autoCropArea' => 1, 'viewMode' => 1])
         ;
     }
 

@@ -15,3 +15,11 @@
       {{- block('textarea_widget') -}}
       <small class="counter-text">{{ 'Character Count' | trans({}, 'WearejustFormBundle') }} <span class="js-countable-total"></span></small>
 {% endblock wearejust_limitedtextarea_widget %}
+
+{% block wearejust_switcher_label %}
+    {{- block('form_label') -}}
+{% endblock wearejust_switcher_label %}
+
+{% block wearejust_switcher_widget %}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{% endblock wearejust_switcher_widget %}
