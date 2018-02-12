@@ -5,6 +5,7 @@ namespace Wearejust\FormBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SwitcherType extends AbstractType
 {
@@ -17,6 +18,19 @@ class SwitcherType extends AbstractType
     {
         $view->vars['attr']['class'] .= ' js-switchery';
     }
+
+    /**
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver
+     *
+     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'required' => false,
+        ]);
+    }
+
 
     /**
      * @return string
