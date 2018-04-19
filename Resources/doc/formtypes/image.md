@@ -29,3 +29,6 @@ class DataAmin extends AbstractAdmin
   }
 }
 ```
+
+If you want your field to be required, please pass through the option 'required' in the options of the field.
+Also add the ```@Assert\NotBlank``` to your ```@Vich``` Entity. Don't forget to add the option ```inject_on_load``` in the vich config array to validate.

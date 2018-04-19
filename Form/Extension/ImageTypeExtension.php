@@ -11,6 +11,8 @@ class ImageTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
+            ->setDefault('required', false)
+            ->setDefault('error_bubbling', false)
             ->setDefault('max_width', 0)
             ->setDefault('max_height', 0)
             ->setDefault('preview_width', 558)
