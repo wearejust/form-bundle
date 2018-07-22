@@ -25,7 +25,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "symfony/framework-bundle": "~2.7|~3.0"
+        "symfony/framework-bundle": "~2.7|~3.0|~4.0"
     },
     "suggest": {
         "presta/image-bundle": "Allows for cropping images, use version ^1.7",
