@@ -5,6 +5,10 @@ services:
         tags:
             - { name: form.type }
 
+    wearejust_form.form_type.limited_textarea:
+        class: Wearejust\FormBundle\Form\Type\LimitedTextarea
+        tags:
+            - { name: form.type, alias: Wearejust\FormBundle\Form\Type\LimitedTextarea }
     wearejust_form.form_extension.image_type_extension:
         class: Wearejust\FormBundle\Form\Extension\ImageTypeExtension
         tags:
