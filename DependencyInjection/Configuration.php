@@ -39,7 +39,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('theme')
-                            ->defaultValue('WearejustFormBundle:Form:fields.html.twig')
+                            ->defaultValue('@WearejustForm/Form/fields.html.twig')
                         ->end()
                     ->end()
                 ->end()
