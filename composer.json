@@ -18,9 +18,9 @@
             "Wearejust\\FormBundle\\": ""
         }
     },
-    "extra": { 
-        "branch-alias": { 
-            "dev-master": "1.x-dev" 
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
         }
     },
     "require": {
@@ -29,7 +29,8 @@
     },
     "suggest": {
         "presta/image-bundle": "Allows for cropping images, use version ^1.7",
-        "vich/uploader-bundle": "Allows for saving files to entities, use version ^1.6"
+        "vich/uploader-bundle": "Allows for saving files to entities, use version ^1.6",
+        "oneup/uploader-bundle": "Allows for uploading files (editorjs use) ^2.2"
     },
     "minimum-stability": "stable",
     "config": {

@@ -12,3 +12,10 @@
         </div>
     </div>
 {% endblock wearejust_switcher_row %}
+
+{% block wearejust_editorjs_row %}
+    <div id="editorjs" style="background-color: #fff;"></div>
+    <textarea {{ block('widget_attributes') }} data-uploads="{{ oneup_uploader_endpoint(form.vars.image_mapping) }}">
+        {% if value is defined %}{{ value }}{% endif %}
+    </textarea>
+{% endblock wearejust_editorjs_row %}
