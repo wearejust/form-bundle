@@ -20,3 +20,8 @@ services:
         class: Wearejust\FormBundle\EventListener\EditorJSUploadListener
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+
+    wearejust_form.twig_extension.block_extension:
+        class: Wearejust\FormBundle\Twig\Extension\BlockExtension
+        tags:
+            - { name: twig.extension }
