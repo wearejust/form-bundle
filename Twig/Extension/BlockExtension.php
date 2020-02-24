@@ -15,14 +15,22 @@ class BlockExtension extends AbstractExtension
     {
         return [
             new TwigFunction('block_converter', function (BlockableInterface $entity) {
+
                 $blocks = $entity->getContent();
+
                 if (! count($blocks)) {
                     return [];
                 }
-
+                $blocksArr = [];
                 $blocks = $blocks['blocks'];
 
-                return array_column($blocks, 'data', 'type');
+                $blocksArr = array_map( function ($a, $k) use ($blocks) { 
+                    $a['prevType'] = $k > 0 ? $blocks[ $k - 1 ]['type'] : null;
+                    $a['nextType'] = $k < ( count($blocks) - 1 ) ? $blocks[ $k + 1 ]['type'] : null;
+                    return $a; 
+                }, $blocks, array_keys($blocks));
+
+                return $blocksArr;
             }),
         ];
     }
